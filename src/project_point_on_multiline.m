@@ -35,8 +35,8 @@ function [projections, distances, projections_relative, line_index] = project_po
         for i=size(line_mat, 1)-1:-1:1
             line_length(i+1, 1) = norm(diff(line_mat(i:i+1, :)));
         end
-        line_length(1, 1) = 0
-        total_line_length = sum(line_length)
+        line_length(1, 1) = 0;
+        total_line_length = sum(line_length);
     end
     for j = size(points, 1):-1:1
         % Determine projection on each line part, set to endpoint of linepart if beyond line
