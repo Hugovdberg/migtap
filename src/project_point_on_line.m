@@ -14,7 +14,7 @@ function [projections, distance] = project_point_on_line(points, line_mat, as_fr
         if as_fraction
             projections(i) = rho;
             if nargout > 1
-                distance = NaN;
+                distance = norm(vec_H-rho*vec_L)/norm(vec_L);
             end
         else
             vec_rho = rho * vec_L;
