@@ -51,7 +51,7 @@ function [projections, distances, projections_relative, line_index] = project_po
             distances(j, 1) = min_dist;
         end
         if with_fraction
-            projections_relative(j, 1) = (sum(line_length(1:min_indx-1, 1)) + line_frac*line_length(min_indx+1))/total_line_length;
+            projections_relative(j, 1) = (sum(line_length(1:min_indx, 1)) + line_frac*line_length(min_indx+1))/total_line_length;
         end
         if with_line_index
             line_index(j, 1) = min_indx;
