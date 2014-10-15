@@ -32,7 +32,6 @@ function [projections, distances, projections_relative, line_index] = project_po
 
     to_endpoint = true;
     if with_fraction
-        % TODO: calculate line_length per segment
         for i=size(line_mat, 1)-1:-1:1
             line_length(i+1, 1) = norm(diff(line_mat(i:i+1, :)));
         end
@@ -51,7 +50,7 @@ function [projections, distances, projections_relative, line_index] = project_po
             distances(j, 1) = min_dist;
         end
         if with_fraction
-            projections_relative(j, 1) = sum(line_length(1:min_indx-1, 1) + line_frac*line_length(min_indx);
+            projections_relative(j, 1) = sum(line_length(1:min_indx-1, 1)) + line_frac*line_length(min_indx);
         end
         if with_line_index
             line_index(j, 1) = min_indx;
