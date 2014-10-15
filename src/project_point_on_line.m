@@ -13,14 +13,19 @@
 %
 %    You should have received a copy of the GNU Lesser General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-function [projections, distance] = project_point_on_line(points, line_mat, as_fraction, to_endpoint)
+function [projections, distance, projections_relative] = project_point_on_line(points, line_mat, to_endpoint)
     if size(line_mat, 1) ~= 2 || size(line_mat, 2) ~= size(points, 2)
         error('Line ill defined')
     end
-    if nargin < 3
-        as_fraction = false;
+    as_fraction = false;
+    with_distance = false;
+    if nargout > 1
+        with_distance = true;
     end
-    if nargin < 4
+    if nargout > 2
+        as_fraction = true;
+    end
+    if nargin < 3
         to_endpoint = false;
     end
         
@@ -32,17 +37,13 @@ function [projections, distance] = project_point_on_line(points, line_mat, as_fr
         if to_endpoint
             rho = min(1, max(0, rho));
         end
+        vec_rho = rho * vec_L;
+        projections(i, :) = vec_rho+vec_0;
+        if with_distance
+            distance(i, 1) = norm(vec_H-vec_rho);
+        end
         if as_fraction
-            projections(i) = rho;
-            if nargout > 1
-                distance = norm(vec_H-rho*vec_L)/norm(vec_L);
-            end
-        else
-            vec_rho = rho * vec_L;
-            projections(i,:) = vec_rho + vec_0;
-            if nargout > 1
-                distance = norm(vec_H - vec_rho);
-            end
+            projections_relative(i, 1) = rho;
         end
     end
 end
