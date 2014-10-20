@@ -27,7 +27,7 @@ function [projections, distances, projections_relative, line_index] = project_po
         with_fraction = true;
     end
     if nargout > 3
-        with_line_index = true
+        with_line_index = true;
     end
 
     to_endpoint = true;
