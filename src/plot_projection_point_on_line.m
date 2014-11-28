@@ -18,7 +18,7 @@ function [h, projections, distance, projections_relative] = plot_projection_poin
         error('plot_projection_point_on_line supports only two dimensional lines')
     end
     if nargin < 3
-    	to_endpoint = false;
+        to_endpoint = false;
     end
     [projections, distance, projections_relative] = project_point_on_line(points, line_mat, to_endpoint);
     
@@ -33,7 +33,10 @@ function [h, projections, distance, projections_relative] = plot_projection_poin
     for i=1:size(points, 1)
         handles(i, 1) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '--');
         handles(i, 2) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '*');
-	set(handles(i, 1), 'Color', [0.2, 0.2, 0.2]);
-	set(handles(i, 2), 'Color', [0.1, 0.1, 0.1], 'Markers', 13);
+        set(handles(i, 1), 'Color', [0.2, 0.2, 0.2]);
+        set(handles(i, 2), 'Color', [0.1, 0.1, 0.1], 'Markers', 13);
+    end
+    if nargout > 0
+        h = handles;
     end
 end
