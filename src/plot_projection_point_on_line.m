@@ -72,7 +72,7 @@ function [h, projections, distance, projections_relative, line_index] = plot_pro
         handles(i, 1) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '--', 'Color', [0.2, 0.2, 0.2]);
     end
     % Plot original points
-    handles(i, 2) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '.', 'Color', [0.1, 0.1, 0.1], 'Markers', 13);
+    handles(i, 2) = plot([points(:, 1); projections(:, 1)], [points(:, 2); projections(:, 2)], '.', 'Color', [0.1, 0.1, 0.1], 'Markers', 13);
     
     % Return handles if requested, makes function quiet if no output is required
     if nargout > 0
