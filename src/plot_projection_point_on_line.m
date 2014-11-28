@@ -25,7 +25,11 @@ function [h, projections, distance, projections_relative] = plot_projection_poin
     if nargin < 4
         fig = figure();
     else
-        set(0, 'currentfigure', fig);
+        if ishandle(fig)
+            set(0, 'currentfigure', fig);
+        else
+            fig = figure(fig);
+        end
     end
     hold on;
     handles = NaN(size(points, 1), 2);
