@@ -30,6 +30,7 @@ function [h, projections, distance, projections_relative] = plot_projection_poin
     hold on;
     handles = NaN(size(points, 1), 2);
     handles(size(points, 1)+1, 1) = plot(line_mat(:, 1), line_mat(:, 2));
+    handles(size(points, 1)+1, 2) = fig;
     for i=1:size(points, 1)
         handles(i, 1) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '--');
         handles(i, 2) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '.');
