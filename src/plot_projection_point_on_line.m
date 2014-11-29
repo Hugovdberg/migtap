@@ -20,7 +20,7 @@ function [h, projections, distance, projections_relative, line_index] = plot_pro
 %   plot_projection_point_on_line(..., fig) takes the same input arguments as project_point_on_line, and additionally specifies an existing figure to add the plot to. Hold is set automatically to preserve existing items in the figure.
 %   [h, ...] = plot_projection_point_on_line(...) returns an array containing handles to all plot items added to the figure for later configuration, and all output arguments of project_point_on_line.
 %
-%   h contains an (n+1)x2 array containing in the first n rows the handles to the 
+%   h contains an (n+1)x2 array containing in the first n rows the handles to the figure and the added components
     
     %% Verify input
     if size(line_mat, 2) ~= 2

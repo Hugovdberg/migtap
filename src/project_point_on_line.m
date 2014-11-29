@@ -13,7 +13,9 @@
 %
 %    You should have received a copy of the GNU Lesser General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 function [projections, distance, projections_relative] = project_point_on_line(points, line_mat, to_endpoint)
+% project_point_on_line projects an array of points orthogonally on a line.
     if size(line_mat, 1) ~= 2 || size(line_mat, 2) ~= size(points, 2)
         error('Line ill defined')
     end
