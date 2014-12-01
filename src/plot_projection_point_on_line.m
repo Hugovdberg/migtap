@@ -62,17 +62,20 @@ function [h, projections, distance, projections_relative, line_index] = plot_pro
     end
     hold on;
     % Prepare an array to hold all handles
-    handles = NaN(size(points, 1), 2);
+    handles = NaN(size(points, 1), 3);
     % Add figure handle to output
-    handles(size(points, 1)+1, 2) = fig;
+    handles(end, 2) = fig;
     % Plot line
-    handles(size(points, 1)+1, 1) = plot(line_mat(:, 1), line_mat(:, 2));
+    handles(end, 1) = plot(line_mat(:, 1), line_mat(:, 2));
     % Plot connecting lines
     for i=1:size(points, 1)
+        % Plot connecting line
         handles(i, 1) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '--', 'Color', [0.2, 0.2, 0.2]);
+        % Plot original point
+        handles(i, 2) = plot(points(i, 1), points(i, 2), '.', 'Color', [0.1, 0.1, 0.1], 'MarkerSize', 11);
+        % Plot projection
+        handles(i, 3) = plot(projections(i, 1), projections(i, 2), '.', 'Color', [0.1, 0.1, 0.1], 'MarkerSize', 10);
     end
-    % Plot original points
-    handles(i, 2) = plot([points(:, 1); projections(:, 1)], [points(:, 2); projections(:, 2)], '.', 'Color', [0.1, 0.1, 0.1], 'Markers', 13);
     
     % Return handles if requested, makes function quiet if no output is required
     if nargout > 0
