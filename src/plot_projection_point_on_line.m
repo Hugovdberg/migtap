@@ -1,5 +1,23 @@
+% PLOT_PROJECTION_POINT_ON_LINE  A wrapper around project_point_on_line to plot
+%   the points and line, with connecting lines between the points and their 
+%   projections.
+%   
+%   plot_projection_point_on_line(..., fig) takes the same input arguments as
+%       project_point_on_line, and additionally specifies an existing figure to
+%       add the plot to. Hold is set automatically to preserve existing items in
+%       the figure.
+%   [h, ...] = plot_projection_point_on_line(...) returns an array containing
+%       handles to all plot items added to the figure for later configuration,
+%       and all output arguments of project_point_on_line.
+%
+%   h contains an (n+1)x3 array containing in the first n rows the handles to
+%       the separate points (h(i, 2)), projections (h(i, 3)), and connecting 
+%       lines (h(i, 1)), with n the number of points. The last row of the array
+%       contains the axes handle, figure handle, and a NaN (by design).
+% 
+% plot_projection_point_on_line is part of the M>ap library
+    
 %    Copyright (C) 2014 Hugo van den Berg
-%    project_point_on_line, part of the Migtap library
 %
 %    This program is free software: you can redistribute it and/or modify
 %    it under the terms of the GNU Lesser General Public License as 
@@ -13,23 +31,18 @@
 %
 %    You should have received a copy of the GNU Lesser General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-function [h, projections, distance, projections_relative, line_index] = plot_projection_point_on_line(points, line_mat, to_endpoint, fig)
-% PLOT_PROJECTION_POINT_ON_LINE  A wrapper around project_point_on_line to plot the points and line, with connecting lines between the points and their projections.
-%   
-%   plot_projection_point_on_line(..., fig) takes the same input arguments as project_point_on_line, and additionally specifies an existing figure to add the plot to. Hold is set automatically to preserve existing items in the figure.
-%   [h, ...] = plot_projection_point_on_line(...) returns an array containing handles to all plot items added to the figure for later configuration, and all output arguments of project_point_on_line.
-%
-%   h contains an (n+1)x2 array containing in the first n rows the handles to the figure and the added components
+function [h, projections, distance, projections_relative, line_index] = ...
+    plot_projection_point_on_line(points, line_mat, to_endpoint, fig)
     
     %% Verify input
     if size(line_mat, 2) ~= 2
-        error('plot_projection_point_on_line supports only two dimensional lines')
+        error('migtap:plot:dimensionError', ...
+            'plot_projection_point_on_line supports only two dimensional lines')
     end
     single_linepart = true;
     switch size(line_mat, 1)
         case {0, 1}
-            error('not enough lineparts to project on')
+            error('migtap:plot:lineparts', 'not enough lineparts to project on')
         case 2
             single_linepart = true;
         otherwise
@@ -41,11 +54,13 @@ function [h, projections, distance, projections_relative, line_index] = plot_pro
     
     %% Calculate projected points
     if single_linepart
-        [projections, distance, projections_relative] = project_point_on_line(points, line_mat, to_endpoint);
+        [projections, distance, projections_relative] = ...
+            project_point_on_line(points, line_mat, to_endpoint);
         % Add line_index for compatibility with multiline variant
         line_index = 1;
     else
-        [projections, distance, projections_relative, line_index] = project_point_on_multiline(points, line_mat);
+        [projections, distance, projections_relative, line_index] = ...
+            project_point_on_multiline(points, line_mat);
     end
     
     %% Plot components
