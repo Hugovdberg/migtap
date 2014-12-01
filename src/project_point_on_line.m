@@ -51,6 +51,7 @@ function [projections, distance, projections_relative] = ...
     %% Determine requested outputs
     as_fraction = false;
     with_distance = false;
+    nargout
     if nargout > 1
         with_distance = true;
     end
@@ -59,29 +60,28 @@ function [projections, distance, projections_relative] = ...
     end
     
     %% Project points on line
+    num_points = size(points, 1)
     % Transform line to start in origin
     vec_0 = line_mat(1, :);
     vec_L = line_mat(2, :) - vec_0;
-    
-    % For all points calculate projection
-    for i = size(points, 1):-1:1
-        % Move point to transformed line
-        vec_H = points(i, :) - vec_0;
-        % Determine projection as fraction of the line length
-        rho = sum(vec_H.*vec_L)/sum(vec_L.*vec_L);
-        if to_endpoint
-            rho = min(1, max(0, rho));
-        end
-        % Determine coordinates off projection on transformed line
-        vec_rho = rho*vec_L;
-        % Transform projection to original line
-        projections(i, :) = vec_rho+vec_0;
-        % Calculate distance between point and projection
-        if with_distance
-            distance(i, 1) = norm(vec_H-vec_rho);
-        end
-        if as_fraction
-            projections_relative(i, 1) = rho;
-        end
+    % Calculate line length squared
+    vec_L2 = norm(vec_L)^2;
+    % Replicate line to match number of points
+    vec_L = repmat(vec_L, num_points, 1);
+    vec_0 = repmat(vec_0, num_points, 1);
+    % Move points to transformed system
+    vec_H = points - vec_0;
+    rho = sum(vec_H.*vec_L, 2)/vec_L2;
+    if to_endpoint
+        rho = min(1, max(0, rho));
     end
+    vec_rho= rho.*vec_L;
+    projections = vec_rho+vec_0;
+    
+%    if with_distance
+        distance = sqrt(sum((vec_H-vec_rho).^2, 2));
+%    end
+%    if as_fraction
+        projections_relative = rho;
+%    end
 end
