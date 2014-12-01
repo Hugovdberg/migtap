@@ -37,6 +37,7 @@ function [projections, distance, projections_relative] = ...
     if nargin < 2
         error('migtap:ppol:numArgs', ...
             'Not enough input arguments')
+    end
     if size(line_mat, 1) ~= 2
         error('migtap:ppol:numPointsError', ...
             'Line must be defined by exactly two points')
@@ -48,19 +49,9 @@ function [projections, distance, projections_relative] = ...
     if nargin < 3
         to_endpoint = false;
     end
-    %% Determine requested outputs
-    as_fraction = false;
-    with_distance = false;
-    nargout
-    if nargout > 1
-        with_distance = true;
-    end
-    if nargout > 2
-        as_fraction = true;
-    end
     
     %% Project points on line
-    num_points = size(points, 1)
+    num_points = size(points, 1);
     % Transform line to start in origin
     vec_0 = line_mat(1, :);
     vec_L = line_mat(2, :) - vec_0;
@@ -76,12 +67,13 @@ function [projections, distance, projections_relative] = ...
         rho = min(1, max(0, rho));
     end
     vec_rho= rho.*vec_L;
-    projections = vec_rho+vec_0;
     
-%    if with_distance
+    %% Produce output
+    projections = vec_rho+vec_0;
+    if nargout > 1
         distance = sqrt(sum((vec_H-vec_rho).^2, 2));
-%    end
-%    if as_fraction
+    end
+    if nargout > 2
         projections_relative = rho;
-%    end
+    end
 end
