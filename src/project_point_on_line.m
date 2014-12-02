@@ -66,7 +66,7 @@ function [projections, distance, projections_relative] = ...
     if to_endpoint
         rho = min(1, max(0, rho));
     end
-    vec_rho= rho.*vec_L;
+    vec_rho= repmat(rho, 1, size(vec_L, 2)).*vec_L;
     
     %% Produce output
     projections = vec_rho+vec_0;
