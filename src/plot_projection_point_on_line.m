@@ -77,7 +77,7 @@ function [h, projections, distance, projections_relative, line_index] = ...
     end
     hold on;
     % Prepare an array to hold all handles
-    handles = NaN(size(points, 1), 3);
+    handles = NaN(size(points, 1)+1, 3);
     % Add figure handle to output
     handles(end, 2) = fig;
     % Plot line
