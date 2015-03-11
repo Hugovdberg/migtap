@@ -42,7 +42,7 @@ function [projections, distances, projections_relative, line_index] = project_po
     for j = size(points, 1):-1:1
         % Determine projection on each line part, set to endpoint of linepart if beyond line
         for i = size(line_mat, 1)-1:-1:1
-            [line_proj(i, :), line_dist(i, 1), line_frac(i, 1)] = project_point_on_line(points(j, :), line_mat(i:i+1, :), to_endpoint);
+            [line_proj(i, :), line_dist(i, 1), line_frac(i, 1)] = migtap.project_point_on_line(points(j, :), line_mat(i:i+1, :), to_endpoint);
         end
         % Find shortest distance to linepart, including index of that part
         [min_dist, min_indx] = min(line_dist);
