@@ -35,18 +35,18 @@ function [h, projections, distance, projections_relative, line_index] = ...
     plot_projection_point_on_line(points, line_mat, to_endpoint, fig)
     
     %% Verify input
-    if size(line_mat, 2) ~= 2
-        error('migtap:plot:dimensionError', ...
-            'plot_projection_point_on_line supports only two dimensional lines')
-    end
-    single_linepart = true;
-    switch size(line_mat, 1)
-        case {0, 1}
-            error('migtap:plot:lineparts', 'not enough lineparts to project on')
-        case 2
-            single_linepart = true;
-        otherwise
-            single_linepart = false;
+    narginchk(2, 4)
+    assert(size(line_mat, 2) == 2, ...
+           'migtap:plot:dimensionError', ...
+           'supports only two dimensional lines');
+    assert(size(line_mat, 1) > 1, ...
+           'migtap:plot:lineparts', ...
+           'not enough lineparts to project on')
+    
+    if size(line_mat, 1) == 2
+        single_linepart = true;
+    else % Always more than two because of assertion size > 1
+        single_linepart = false;
     end
     if nargin < 3
         to_endpoint = false;
@@ -55,12 +55,12 @@ function [h, projections, distance, projections_relative, line_index] = ...
     %% Calculate projected points
     if single_linepart
         [projections, distance, projections_relative] = ...
-            project_point_on_line(points, line_mat, to_endpoint);
+            migtap.project_point_on_line(points, line_mat, to_endpoint);
         % Add line_index for compatibility with multiline variant
         line_index = 1;
     else
         [projections, distance, projections_relative, line_index] = ...
-            project_point_on_multiline(points, line_mat);
+            migtap.project_point_on_multiline(points, line_mat);
     end
     
     %% Plot components
@@ -68,11 +68,14 @@ function [h, projections, distance, projections_relative, line_index] = ...
     if nargin < 4
         fig = figure();
     else
-        if ishandle(fig)
+        try
             set(0, 'currentfigure', fig);
-            
-        else
-            fig = figure(fig);
+        catch
+            if isnumeric(fig)
+                fig = figure(fig);
+            else
+                fig = figure();
+            end
         end
     end
     hold on;
@@ -85,14 +88,26 @@ function [h, projections, distance, projections_relative, line_index] = ...
     % Plot connecting lines
     for i=1:size(points, 1)
         % Plot connecting line
-        handles(i, 1) = plot([points(i, 1), projections(i, 1)], [points(i, 2), projections(i, 2)], '--', 'Color', [0.2, 0.2, 0.2]);
+        handles(i, 1) = plot([points(i, 1), projections(i, 1)], ...
+                             [points(i, 2), projections(i, 2)], ...
+                             '--', ...
+                             'Color', [0.2, 0.2, 0.2]);
         % Plot original point
-        handles(i, 2) = plot(points(i, 1), points(i, 2), '.', 'Color', [0.1, 0.1, 0.1], 'MarkerSize', 11);
+        handles(i, 2) = plot(points(i, 1), ...
+                             points(i, 2), ...
+                             '.', ...
+                             'Color', [0.1, 0.1, 0.1], ...
+                             'MarkerSize', 11);
         % Plot projection
-        handles(i, 3) = plot(projections(i, 1), projections(i, 2), '.', 'Color', [0.1, 0.1, 0.1], 'MarkerSize', 10);
+        handles(i, 3) = plot(projections(i, 1), ...
+                             projections(i, 2), ...
+                             '.', ...
+                             'Color', [0.1, 0.1, 0.1], ...
+                             'MarkerSize', 10);
     end
     
-    % Return handles if requested, makes function quiet if no output is required
+    % Return handles if requested, makes function quiet if no output is
+    % required
     if nargout > 0
         h = handles;
     end
