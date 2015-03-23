@@ -43,12 +43,10 @@ function [h, projections, distance, projections_relative, line_index] = ...
            'migtap:plot:lineparts', ...
            'not enough lineparts to project on')
     
-    if size(line_mat, 1) == 2
-        single_linepart = true;
-    else % Always more than two because of assertion size > 1
-        single_linepart = false;
-    end
-    if nargin < 3
+	% if line defined by 2 points it's a single linepart
+	single_linepart = size(line_mat, 1) == 2;
+    
+	if nargin < 3
         to_endpoint = false;
     end
     
