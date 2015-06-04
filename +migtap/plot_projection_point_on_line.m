@@ -32,7 +32,7 @@
 %    You should have received a copy of the GNU Lesser General Public License
 %    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function [h, projections, distance, projections_relative, line_index] = ...
-    plot_projection_point_on_line(points, line_mat, to_endpoint, fig)
+    plot_projection_point_on_line(points, line_mat, to_endpoint, ax)
     
     %% Verify input
     narginchk(2, 4)
@@ -64,23 +64,19 @@ function [h, projections, distance, projections_relative, line_index] = ...
     %% Plot components
     % Determine figure to draw plots in
     if nargin < 4
-        fig = figure();
+        ax = axes();
     else
         try
-            set(0, 'currentfigure', fig);
+            axes(ax);
         catch
-            if isnumeric(fig)
-                fig = figure(fig);
-            else
-                fig = figure();
-            end
+            ax = axes();
         end
     end
     hold on;
     % Prepare an array to hold all handles
     handles = NaN(size(points, 1)+1, 3);
     % Add figure handle to output
-    handles(end, 2) = fig;
+    handles(end, 2) = ax;
     % Plot line
     handles(end, 1) = plot(line_mat(:, 1), line_mat(:, 2));
     % Plot connecting lines
