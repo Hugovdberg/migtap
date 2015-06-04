@@ -4,7 +4,7 @@ function [ varargout ] = write(filename, data, crs)
 
     % WRITESHP needs filename without extension
     if strcmp(filename(end-3:end), '.shp')
-        filename = filename(end-3:end);
+        filename = filename(1:end-4);
     end
 
     % Call writeshp to do the dirty work
