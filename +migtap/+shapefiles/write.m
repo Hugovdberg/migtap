@@ -2,6 +2,12 @@ function [ varargout ] = write(filename, data, crs)
     %WRITE Summary of this function goes here
     %   Detailed explanation goes here
 
+    if isempty(which('writeshp'))
+        error('MIGTAP:SHAPEFILES:writeshpMissing', ...
+              ['M>ap still depends on external non-free GIStools by '...
+               '<Bernard.Raterman@kiwa.nl>'])
+    end
+    
     % WRITESHP needs filename without extension
     if strcmp(filename(end-3:end), '.shp')
         filename = filename(1:end-4);
