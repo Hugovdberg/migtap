@@ -8,7 +8,7 @@ function [ varargout ] = write(filename, data, crs)
     end
 
     % Call writeshp to do the dirty work
-    varargout = writeshp(filename, data);
+    varargout = {writeshp(filename, data)};
     
     % If a CRS is provided try to provide the projection file as well
     if nargin > 2
