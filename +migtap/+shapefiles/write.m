@@ -14,7 +14,7 @@ function [ varargout ] = write(filename, data, crs)
     end
 
     % Call writeshp to do the dirty work
-    varargout = {writeshp(filename, data)};
+    tmpout = {writeshp(filename, data)};
     
     % If a CRS is provided try to provide the projection file as well
     if nargin > 2
@@ -25,4 +25,5 @@ function [ varargout ] = write(filename, data, crs)
             copyfile(prj_source, [filename '.prj']);
         end
     end
+    varargout = tmpout(1:nargout);
 end

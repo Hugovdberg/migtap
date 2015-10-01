@@ -8,7 +8,8 @@ function [ varargout ] = read( varargin )
                '<Bernard.Raterman@kiwa.nl>'])
     end
     
-    varargout = readshp(varargin);
+    temp = {readshp(varargin{:})};
+    varargout = temp(1:nargout);
 
 end
 
