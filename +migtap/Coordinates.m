@@ -53,16 +53,16 @@ classdef Coordinates < handle & matlab.mixin.Copyable
                 obj.coords(dim) = val;
             end
         end
-        function newCoords = convertCoordinates(objs, crs, new)
+        function newCoords = convertCoordinates(objs, crs)
             if ~all(objs.validateCoordinates)
                 throw(MException('migtap:coord:CoordinatesOutOfBounds', ...
                     'Coordinates are outside their valid range, cannot be converted'))
             end
-            if nargin < 3
-                new = false;
-            end
-            if new
+            if nargout > 0
+                new = true;
                 objs = objs.copy();
+            else
+                new = false;
             end 
             for obj=objs
                 try
