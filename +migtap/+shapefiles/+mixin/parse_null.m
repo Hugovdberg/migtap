@@ -1,7 +1,6 @@
-function [ output_args ] = parse_null( input_args )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
-
+function shpData = parse_null(~, ~, selection)
+%PARSE_NULL Fakes parsing NULL-type shapefile
+    numRecs = length(selection);
+    shpData(1:numRecs) = struct('ShapeType', 'Null');
 end
 
