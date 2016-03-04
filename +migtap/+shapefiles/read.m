@@ -1,5 +1,27 @@
 function shapes = read(filename, selection, attributes)
-%READ Reads ESRI shapefile and returns structarray with shapes and records
+% READ Reads features from ESRI shapefile, including attributes
+%   Base function to read ESRI shapefiles. Requires <a
+%   href="matlab:web('https://github.com/Hugovdberg/dbflib')">dbflib</a> to
+%   be installed on the matlab path.
+%
+%   Inputs:
+%   - filename (char):
+%       Filename of the shapefile to be read. The extension '.shp' can be
+%       omitted, actually the given extension is ignored entirely.
+%   - selection (array):
+%       Array containing numeric indices of the requested features.
+%   - attributes (cell):
+%       Cell-array containing names of the requested attributes for each
+%       feature. Passed directly to <a
+%       href="matlab:help('dbflib.read')">dbflib.read</a>.
+%
+%   Part of the <a
+%   href="matlab:web('https://github.com/Hugovdberg/migtap')">M>ap</a>-library. Released under <a
+%   href="matlab:web('www.gnu.org/licenses/lgpl-3.0.html')">LGPL v3</a>-license.
+%
+%   See: <a href="matlab:help('migtap.shapefiles.write')">write</a>, <a
+%   href="matlab:help('migtap.shapefiles.info')">info</a>, <a
+%   href="matlab:help('migtap.shapefiles.index')">index</a>
 
     sc = migtap.shapefiles.mixin.ShapeConsts();
 
