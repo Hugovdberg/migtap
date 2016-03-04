@@ -30,7 +30,7 @@ function shapes = read(filename, selection, attributes)
         end
 
         shpData = shpInfo.ShapeTypeParser(shpfile, shxInfo, selection);
-        [dbfData, dbfInfo] = dbf.read(dbffile, selection, attributes);
+        [dbfData, dbfInfo] = dbflib.read(dbffile, selection, attributes);
 
         shapes.Shape = shpData;
         shapes.Record = cell2struct(dbfData, {dbfInfo.FieldInfo.Name}, 2);
