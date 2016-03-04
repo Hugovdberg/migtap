@@ -1,6 +1,23 @@
 function shpData = parse_point(fid, shxInfo, selection)
-%PARSE_POINT Parse point-type shapefile using preparsed header/index
-%   Detailed explanation goes here
+%PARSE_POINT Parses Point-type shaperecords
+%   Internal function for the M>ap-shapefile reader
+%
+%   Inputs (all required):
+%   - fid (handle):
+%       Handle to open file
+%   - shxInfo (struct):
+%       Struct containing shapefile index as parsed by
+%       migtap.shapefiles.index, used for quick access to requested
+%       features.
+%   - selection (array):
+%       Array containing numeric indices of the requested features
+%
+%   Outputs:
+%   - shpData (struct):
+%       Array containing parsed data in a struct per feature.
+%
+%   See: <a href="matlab:help('migtap.shapefiles.read')">read</a>
+
     sc = migtap.shapefiles.mixin.ShapeConsts;
 
     numRecs = length(selection);

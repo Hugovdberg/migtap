@@ -1,5 +1,17 @@
 function shpInfo = info(filename)
-%READ Reads ESRI shapefile and returns structarray with shapes and records
+% INFO Reads fileheader for ESRI shapefile
+%   Complementary function for reading shapefiles, can be used to determine
+%   some general information of a shapefile without parsing the complete
+%   file.
+%
+%   Inputs:
+%   - filename (char or handle):
+%       Filename or handle to opened file. If filename is given  as char
+%       the file is closed upon completion, otherwise the handle is left
+%       open.
+%
+%   See: <a href="matlab:help('migtap.shapefiles.read')">read</a>
+
 
     sc = migtap.shapefiles.mixin.ShapeConsts();
 
