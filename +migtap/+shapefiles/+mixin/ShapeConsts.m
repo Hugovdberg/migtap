@@ -1,7 +1,6 @@
 classdef ShapeConsts
-    %UNTITLED Summary of this class goes here
-    %   Detailed explanation goes here
-    
+% SHAPECONSTS Defines a number of constants for use throughout library
+
     properties (Constant)
         % File reading constants
         READ_BINARY = 'rb';
@@ -20,25 +19,25 @@ classdef ShapeConsts
 
         % Header indices
         FILE_HEADER_LENGTH = 100;
-        
+
         % FILE_CODE
         FILE_CODE_OFFSET = 0;
         FILE_CODE_NUMVALS = 1;
         FILE_CODE_VALUE = 9994;
-        
+
         % FILE_LENGTH
         FILE_LENGTH_OFFSET = 24;
         FILE_LENGTH_NUMVALS = 1;
-        
+
         % VERSION
         VERSION_OFFSET = 28;
         VERSION_NUMVALS = 1;
         VERSION_VALUE = 1000;
-        
+
         % SHAPE_TYPE
         SHAPE_TYPE_OFFSET = 32;
         SHAPE_TYPE_NUMVALS = 1;
-        
+
         % FILE_BBOX
         FILE_BBOX_OFFSET = 36;
         FILE_BBOX_NUMVALS = 8;
@@ -65,13 +64,12 @@ classdef ShapeConsts
         INDEX_OFFSETS_SIZE = 4;
         INDEX_LENGTH_OFFSET = 4;
         INDEX_LENGTH_SIZE = 4;
-        
+
         SHAPE_LENGTH_OFFSET = 0;
         SHAPE_CONTENT_LENGTH_OFFSET = 4;
     end
-    
+
     methods
     end
-    
-end
 
+end

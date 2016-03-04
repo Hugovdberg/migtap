@@ -1,7 +1,6 @@
 function shapes = read(filename, selection, attributes)
 %READ Reads ESRI shapefile and returns structarray with shapes and records
 
-    % Declare constants
     sc = migtap.shapefiles.mixin.ShapeConsts();
 
     [path, fname, ~] = fileparts(filename);
@@ -52,7 +51,7 @@ function shapes = read(filename, selection, attributes)
         end
         rethrow(err)
     end
-    
+
     fclose(dbffile);
     fclose(shxfile);
     fclose(shpfile);
