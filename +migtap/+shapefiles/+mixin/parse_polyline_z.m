@@ -1,10 +1,7 @@
-function shpData = parse_polygon(fid, shxInfo, selection)
+function shpData = parse_polyline_z(fid, shxInfo, selection)
 %PARSE_POINT Parse point-type shapefile using preparsed header/index
 %   Detailed explanation goes here
     sc = migtap.shapefiles.mixin.ShapeConsts;
-
-    X = 1;
-    Y = 2;
 
     numRecs = length(selection);
     shpData(numRecs, 1) = struct();
@@ -20,9 +17,9 @@ function shpData = parse_polygon(fid, shxInfo, selection)
         shpData(k).RecordNumber = record_header(1);
         shpType = fread(fid, 1, sc.INTEGER, 0, sc.LITTLE_ENDIAN);
         if shpType == 0
-            shpData(k).ShapeType = 'NullPolygon';
-        elseif shpType == 5
-            shpData(k).ShapeType = 'Polygon';
+            shpData(k).ShapeType = 'NullPolyLineZ';
+        elseif shpType == 13
+            shpData(k).ShapeType = 'PolyLineZ';
             bbox = fread(fid, 4, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
             nums = fread(fid, 2, sc.INTEGER, 0, sc.LITTLE_ENDIAN);
             numparts = nums(1);
@@ -32,25 +29,32 @@ function shpData = parse_polygon(fid, shxInfo, selection)
                                          sc.INTEGER, 0, sc.LITTLE_ENDIAN);
             points = fread(fid, [2, numpoints], ...
                            sc.DOUBLE, 0, sc.LITTLE_ENDIAN)';
+            zrange = fread(fid, 2, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
+            zarray = fread(fid, numpoints, sc.DOUBLE, 0, sc.LITTLE_ENDIAN)';
+            mrange = fread(fid, 2, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
+            marray = fread(fid, numpoints, sc.DOUBLE, 0, sc.LITTLE_ENDIAN)';
             for l = numparts:-1:1
                 idx = partnums(l)+1:partnums(l+1);
                 parts{l} = points(idx, :);
-                shiftidx = [partnums(l)+2:partnums(l+1), partnums(l)+1];
-                innerRing(l) = ...
-                    sum((points(shiftidx, X)-points(idx, X)) .* ...
-                        (points(shiftidx, Y)+points(idx, Y))) < 0;
+                zparts{l} = zarray(idx);
+                mparts{l} = marray(idx);
             end
             shpData(k).Xmin = bbox(1);
             shpData(k).Ymin = bbox(2);
+            shpData(k).Zmin = zrange(1);
+            shpData(k).Mmin = mrange(1);
             shpData(k).Xmax = bbox(3);
             shpData(k).Ymax = bbox(4);
+            shpData(k).Zmax = zrange(2);
+            shpData(k).Mmax = mrange(2);
             shpData(k).NumParts = numparts;
             shpData(k).NumPoints = numpoints;
-            shpData(k).InnerRings = innerRing;
             shpData(k).Points = parts;
+            shpData(k).Z = zparts;
+            shpData(k).M = mparts;
         else
             error('SHPREAD:InvalidShapeType', ...
-                  ['Expected ShapeType 0 (Null) or 5 (Polygon), ' ...
+                  ['Expected ShapeType 0 (Null) or 13 (PolyLineZ), ' ...
                    'got ''%d'' instead'], ...
                   shpType)
         end

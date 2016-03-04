@@ -1,4 +1,4 @@
-function shpData = parse_multipoint(fid, shxInfo, selection)
+function shpData = parse_point_m(fid, shxInfo, selection)
 %PARSE_POINT Parse point-type shapefile using preparsed header/index
 %   Detailed explanation goes here
     sc = migtap.shapefiles.mixin.ShapeConsts;
@@ -17,22 +17,15 @@ function shpData = parse_multipoint(fid, shxInfo, selection)
         shpData(k).RecordNumber = record_header(1);
         shpType = fread(fid, 1, sc.INTEGER, 0, sc.LITTLE_ENDIAN);
         if shpType == 0
-            shpData(k).ShapeType = 'NullMultiPoint';
-        elseif shpType == 8
-            shpData(k).ShapeType = 'MultiPoint';
-            bbox = fread(fid, 4, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
-            numpoints = fread(fid, 1, sc.INTEGER, 0, sc.LITTLE_ENDIAN);
-            data = fread(fid, [2, numpoints], ...
-                         sc.DOUBLE, 0, sc.LITTLE_ENDIAN)';
-            shpData(k).Xmin = bbox(1);
-            shpData(k).Ymin = bbox(2);
-            shpData(k).Xmax = bbox(3);
-            shpData(k).Ymax = bbox(4);
-            shpData(k).NumPoints = numpoints;
-            shpData(k).Points = data;
+            shpData(k).ShapeType = 'NullPointM';
+        elseif shpType == 21
+            shpData(k).ShapeType = 'PointM';
+            data = fread(fid, 3, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
+            shpData(k).Points = data(1:2);
+            shpData(k).M = data(3);
         else
             error('SHPREAD:InvalidShapeType', ...
-                  ['Expected ShapeType 0 (Null) or 8 (MultiPoint), ' ...
+                  ['Expected ShapeType 0 (Null) or 21 (PointM), ' ...
                    'got ''%d'' instead'], ...
                   shpType)
         end

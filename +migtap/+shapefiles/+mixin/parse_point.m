@@ -4,7 +4,7 @@ function shpData = parse_point(fid, shxInfo, selection)
     sc = migtap.shapefiles.mixin.ShapeConsts;
 
     numRecs = length(selection);
-    shpData(numRecs) = struct();
+    shpData(numRecs, 1) = struct();
     for k = 1:numRecs
         recNum = selection(k);
         offset = shxInfo.Offsets(recNum)*sc.WORD_LENGTH;
@@ -21,8 +21,7 @@ function shpData = parse_point(fid, shxInfo, selection)
         elseif shpType == 1
             shpData(k).ShapeType = 'Point';
             data = fread(fid, 2, sc.DOUBLE, 0, sc.LITTLE_ENDIAN);
-            shpData(k).X = data(1);
-            shpData(k).Y = data(2);
+            shpData(k).Points = data;
         else
             error('SHPREAD:InvalidShapeType', ...
                   'Expected ShapeType Null or Point, got ''%s''', ...
@@ -30,4 +29,3 @@ function shpData = parse_point(fid, shxInfo, selection)
         end
     end
 end
-
