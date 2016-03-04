@@ -9,6 +9,10 @@ function shpIndex = index(filename)
 %       the file is closed upon completion, otherwise the handle is left
 %       open.
 %
+%   Part of the <a
+%   href="matlab:web('https://github.com/Hugovdberg/migtap')">M>ap</a>-library. Released under <a
+%   href="matlab:web('www.gnu.org/licenses/lgpl-3.0.html')">LGPL v3</a>-license.
+%
 %   See: <a href="matlab:help('migtap.shapefiles.read')">read</a>
 
     sc = migtap.shapefiles.mixin.ShapeConsts;

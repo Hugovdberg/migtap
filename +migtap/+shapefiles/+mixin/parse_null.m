@@ -1,14 +1,14 @@
 function shpData = parse_null(~, ~, selection)
-%PARSE_NULL Parses Null-type shaperecords
-%   Internal function for the M>ap-shapefile reader
+%PARSE_NULL Imitates parsing Null-type shaperecords
+%   Internal function for the M>ap-shapefile reader. Instead of reading
+%   nulls this builds struct-array containing requested recordnumbers and
+%   shapetype set to Null.
 %
 %   Inputs (all required):
 %   - fid (handle):
-%       Handle to open file, ignored
+%       Ignored, necessary for signature compliance
 %   - shxInfo (struct):
-%       Struct containing shapefile index as parsed by
-%       migtap.shapefiles.index, used for quick access to requested
-%       features.
+%       Ignored, necessary for signature compliance
 %   - selection (array):
 %       Array containing numeric indices of the requested features
 %
